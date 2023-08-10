@@ -21,6 +21,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
 
     implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
 }
 publishing {
     repositories {
@@ -47,7 +49,7 @@ publishing {
             }
             pom {
                 name = rootProject.name
-                description = "An SDK to easily communicate with your Gree appliances. Separated from GreeControlAndroid."
+                description = "Originally separated from GreeControlAndroid, after that, it got a full network-side rewrite."
                 url = "https://docs.czsoft.eu/greesdk?v=" + rootProject.version
                 developers {
                     developer {

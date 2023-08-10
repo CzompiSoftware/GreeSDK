@@ -1,30 +1,21 @@
 package eu.czsoft.greesdk;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import eu.czsoft.greesdk.net.DeviceKeyChain;
+import eu.czsoft.greesdk.net.packets.Packet;
+import eu.czsoft.greesdk.net.packets.packs.Pack;
+import eu.czsoft.greesdk.net.packets.packs.serverbound.ChangeOptionRequestPack;
+import eu.czsoft.greesdk.serialization.PackDeserializer;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import eu.czsoft.greesdk.deserializers.PackDeserializer;
-import eu.czsoft.greesdk.network.DeviceKeyChain;
-import eu.czsoft.greesdk.packets.Packet;
-import eu.czsoft.greesdk.packs.DatPack;
-import eu.czsoft.greesdk.packs.Pack;
-
+@Log4j2
 public class Utils {
-
-    public static class Unzipped {
-        public final String[] keys;
-        public final Integer[] values;
-
-        public Unzipped(String[] keys, Integer[] values) {
-            this.keys = keys;
-            this.values = values;
-        }
-    }
 
     public static Map<String, Integer> zip(String[] keys, Integer[] values) throws IllegalArgumentException {
         if (keys.length != values.length)
@@ -38,11 +29,11 @@ public class Utils {
         return zipped;
     }
 
-    public static Unzipped unzip(Map<String, Integer> map) {
+    protected static Unzipped unzip(Map<String, Integer> map) {
         return new Unzipped(map.keySet().toArray(new String[0]), map.values().toArray(new Integer[0]));
     }
 
-    public static Map<String, Integer> getValues(DatPack pack) {
+    protected static Map<String, Integer> getValues(ChangeOptionRequestPack pack) {
         return zip(pack.keys, pack.values);
     }
 
@@ -76,16 +67,16 @@ public class Utils {
         return packet;
     }
 
-    private static String getKey(DeviceKeyChain keyChain, Packet packet) {
+    protected static String getKey(DeviceKeyChain keyChain, Packet packet) {
         String key = Crypto.GENERIC_KEY;
 
-        Log.i("getKey", String.format("packet.cid: %s, packet.tcid: %s", packet.cid, packet.tcid));
+        LOGGER.info(String.format("packet.cid: %s, packet.tcid: %s", packet.clientId, packet.targetClientId));
 
         if (keyChain != null) {
-            if (keyChain.containsKey(packet.cid)) {
-                key = keyChain.getKey(packet.cid);
-            } else if (keyChain.containsKey(packet.tcid)) {
-                key = keyChain.getKey(packet.tcid);
+            if (keyChain.containsKey(packet.clientId)) {
+                key = keyChain.getKey(packet.clientId);
+            } else if (keyChain.containsKey(packet.targetClientId)) {
+                key = keyChain.getKey(packet.targetClientId);
             }
         }
 
