@@ -1,12 +1,11 @@
 package eu.czsoft.greesdk.task;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.java.Log;
 
 import java.util.concurrent.*;
 
+@Log
 public abstract class ConcurrentTask<TParams, TProgress, TResult> {
-    public static final Logger LOGGER = LogManager.getLogger("AsyncTaskRunner");
 
     private static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(5, 128, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
@@ -39,7 +38,7 @@ public abstract class ConcurrentTask<TParams, TProgress, TResult> {
             } catch (InterruptedException ex) {
                 backgroundExecutor.execute(this::onCancelled);
             } catch (Exception ex) {
-                LOGGER.error("Execution error occurred. Description: " + ex.getMessage() + "\n Exception:\n" + ex.toString());
+                LOGGER.severe("Execution error occurred. Description: " + ex.getMessage() + "\n Exception:\n" + ex.toString());
             }
         });
     }

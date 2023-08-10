@@ -17,14 +17,14 @@ import eu.czsoft.greesdk.net.packets.packs.serverbound.StatusResponsePack;
 import eu.czsoft.greesdk.net.packets.serverbound.ApplicationPacket;
 import eu.czsoft.greesdk.net.packets.serverbound.ScanAppliancesPacket;
 import eu.czsoft.greesdk.net.packets.serverbound.WifiSettingsPacket;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-@Log4j2
+@Log
 public class DeviceManager {
     private final int DATAGRAM_PORT = 7000;
 
@@ -73,7 +73,7 @@ public class DeviceManager {
     }
 
     public void setParameters(ApplianceImpl device, Map<String, Integer> parameters) {
-        LOGGER.debug(String.format("Setting parameters of %s: %s", device.getId(), parameters));
+        LOGGER.fine(String.format("Setting parameters of %s: %s", device.getId(), parameters));
 
         ApplicationPacket packet = new ApplicationPacket();
         packet.targetClientId = device.getId();
@@ -101,7 +101,7 @@ public class DeviceManager {
 
                     sendEvent(DeviceManagerEvent.DEVICE_STATUS_UPDATED);
                 } catch (Exception e) {
-                    LOGGER.error("Failed to get response of command. Error: " + e.getMessage());
+                    LOGGER.severe("Failed to get response of command. Error: " + e.getMessage());
                 }
             }
         });
@@ -129,7 +129,7 @@ public class DeviceManager {
 
                     sendEvent(DeviceManagerEvent.DEVICE_STATUS_UPDATED);
                 } catch (Exception e) {
-                    LOGGER.error("Failed to get response of command. Error: " + e.getMessage());
+                    LOGGER.severe("Failed to get response of command. Error: " + e.getMessage());
                 }
             }
         });
@@ -149,7 +149,7 @@ public class DeviceManager {
 
                     bindDevices(responses);
                 } catch (Exception e) {
-                    LOGGER.debug("Device discovery failed with exception\n" + e);
+                    LOGGER.fine("Device discovery failed with exception\n" + e);
                 }
             }
         });
@@ -203,7 +203,7 @@ public class DeviceManager {
                     sendEvent(DeviceManagerEvent.DEVICE_STATUS_UPDATED);
 
                 } catch (Exception e) {
-                    LOGGER.warn("Failed to get device update result. Error: " + e.getMessage());
+                    LOGGER.warning("Failed to get device update result. Error: " + e.getMessage());
                 }
             }
         });
@@ -250,7 +250,7 @@ public class DeviceManager {
                     Packet[] responses = comm.get();
                     storeDevices(responses);
                 } catch (Exception e) {
-                    LOGGER.debug("Device discovery failed with exception\n" + e);
+                    LOGGER.fine("Device discovery failed with exception\n" + e);
                 }
             }
         });

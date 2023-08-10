@@ -1,14 +1,12 @@
 package eu.czsoft.greesdk;
 
-import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.java.Log;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
-@Log4j2
+@Log
 public class Crypto {
     protected static String GENERIC_KEY = "a3K8Bx%2r8Y7#xDh";
 
@@ -23,7 +21,7 @@ public class Crypto {
 
             return encoded;
         } catch (Exception e) {
-            LOGGER.error("Pack encryption failed. Error: " + e.getMessage());
+            LOGGER.severe("Pack encryption failed. Error: " + e.getMessage());
         }
 
         return "";
@@ -40,7 +38,7 @@ public class Crypto {
             byte[] decrypted = c.doFinal(decoded);
             return new String(decrypted);
         } catch (Exception e) {
-            LOGGER.error("Pack decryption failed. Error: " + e.getMessage());
+            LOGGER.severe("Pack decryption failed. Error: " + e.getMessage());
         }
 
         return "";

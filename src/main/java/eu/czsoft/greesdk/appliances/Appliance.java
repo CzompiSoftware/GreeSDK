@@ -5,6 +5,8 @@ public interface Appliance {
 
     String getName();
 
+    ApplianceType getType();
+
     void setName(String name);
 
     boolean isPoweredOn();
@@ -14,5 +16,5 @@ public interface Appliance {
 
     void setParameter(String name, int value);
 
-    void setWifiDetails(String ssid, String password);
+    void setWiFiDetails(String ssid, String password);
 }

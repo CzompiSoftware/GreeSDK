@@ -1,6 +1,5 @@
 package eu.czsoft.greesdk.net.packets.packs;
 
-import eu.czsoft.greesdk.net.packets.Packet;
 import lombok.ToString;
 
 /**

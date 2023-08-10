@@ -5,15 +5,14 @@ import eu.czsoft.greesdk.net.DeviceKeyChain;
 import eu.czsoft.greesdk.net.packets.Packet;
 import eu.czsoft.greesdk.net.packets.serverbound.ApplicationPacket;
 import eu.czsoft.greesdk.task.ConcurrentTask;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.java.Log;
 
 import java.io.IOException;
 import java.net.*;
 import java.util.ArrayList;
 
+@Log
 public class AsyncCommunicator extends ConcurrentTask<Packet[], Void, Packet[]> {
-    private final Logger LOGGER = LogManager.getLogger("AsyncCommunicator");
     private final int DATAGRAM_PORT = 7000;
     private final int TIMEOUT_MS = 500;
 
@@ -49,7 +48,7 @@ public class AsyncCommunicator extends ConcurrentTask<Packet[], Void, Packet[]> 
                 broadcastPacket(request);
             responses = receivePackets(TIMEOUT_MS);
         } catch (Exception e) {
-            LOGGER.error("Error: " + e.getMessage());
+            LOGGER.severe("Error: " + e.getMessage());
         } finally {
             closeSocket();
         }
@@ -68,7 +67,7 @@ public class AsyncCommunicator extends ConcurrentTask<Packet[], Void, Packet[]> 
     private void broadcastPacket(Packet packet) throws IOException {
         String data = Utils.serializePacket(packet, keyChain);
 
-        LOGGER.debug("Broadcasting: " + packet);
+        LOGGER.fine("Broadcasting: " + packet);
 
         DatagramPacket datagramPacket = new DatagramPacket(
                 data.getBytes(), data.length(),
@@ -93,17 +92,17 @@ public class AsyncCommunicator extends ConcurrentTask<Packet[], Void, Packet[]> 
                 datagramPackets.add(datagramPacket);
             }
         } catch (Exception e) {
-            LOGGER.warn("Exception: " + e.getMessage());
+            LOGGER.warning("Exception: " + e.getMessage());
         }
 
         for (DatagramPacket p : datagramPackets) {
             String data = new String(p.getData(), 0, p.getLength());
             InetAddress address = p.getAddress();
 
-            LOGGER.debug(String.format("Received response from %s: %s", address.getHostAddress(), data));
+            LOGGER.fine(String.format("Received response from %s: %s", address.getHostAddress(), data));
 
             Packet response = Utils.deserializePacket(data, keyChain);
-            LOGGER.debug(response);
+            LOGGER.fine(response.toString());
             // Filter out packets sent by us
             if (response.clientId != null && response.clientId != ApplicationPacket.CLIENT_ID)
                 responses.add(response);
@@ -116,7 +115,7 @@ public class AsyncCommunicator extends ConcurrentTask<Packet[], Void, Packet[]> 
         try {
             socket = new DatagramSocket(new InetSocketAddress(DATAGRAM_PORT));
         } catch (SocketException e) {
-            LOGGER.error("Failed to create socket. Error: " + e.getMessage());
+            LOGGER.severe("Failed to create socket. Error: " + e.getMessage());
             return false;
         }
 

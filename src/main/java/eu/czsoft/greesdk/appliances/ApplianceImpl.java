@@ -5,9 +5,9 @@ import eu.czsoft.greesdk.DeviceManager;
 import eu.czsoft.greesdk.net.packets.packs.clientbound.DeviceResponsePack;
 import eu.czsoft.greesdk.net.packets.packs.clientbound.ResultPack;
 import eu.czsoft.greesdk.net.packets.packs.serverbound.ChangeOptionRequestPack;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ApplianceImpl implements Appliance {
     Logger LOGGER;
@@ -33,7 +33,7 @@ public class ApplianceImpl implements Appliance {
     }
 
     public void updateWithDevicePack(DeviceResponsePack pack) {
-        LOGGER.debug("Updating name: " + pack.name);
+        LOGGER.fine("Updating name: " + pack.name);
         name = pack.name;
     }
 
@@ -45,6 +45,11 @@ public class ApplianceImpl implements Appliance {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public ApplianceType getType() {
+        return ApplianceType.UNKNOWN;
     }
 
     @Override
@@ -72,7 +77,7 @@ public class ApplianceImpl implements Appliance {
     }
 
     @Override
-    public void setWifiDetails(String ssid, String password) {
+    public void setWiFiDetails(String ssid, String password) {
         deviceManager.setWiFi(ssid, password);
     }
 
@@ -91,7 +96,7 @@ public class ApplianceImpl implements Appliance {
 
 
     void updateParameters(Map<String, Integer> parameterMap) {
-        LOGGER.debug("Updating parameterMap: " + parameterMap);
+        LOGGER.fine("Updating parameterMap: " + parameterMap);
 
         poweredOn = getBooleanParameter(parameterMap, Parameter.POWER, poweredOn);
     }

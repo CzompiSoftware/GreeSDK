@@ -5,9 +5,9 @@ import eu.czsoft.greesdk.appliances.airconditioner.Mode;
 import eu.czsoft.greesdk.appliances.airconditioner.TemperatureUnit;
 import eu.czsoft.greesdk.appliances.airconditioner.VerticalSwingMode;
 import eu.czsoft.greesdk.DeviceManager;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class AirConditionerApplianceImpl extends ApplianceImpl implements AirConditionerAppliance {
     private Mode mode = Mode.AUTO;
@@ -28,9 +28,13 @@ public class AirConditionerApplianceImpl extends ApplianceImpl implements AirCon
     public AirConditionerApplianceImpl(String deviceId, DeviceManager deviceManager) {
         super(deviceId, deviceManager);
 
-        LOGGER = LogManager.getLogger(String.format("AirConditioner(%s)", deviceId));
+        LOGGER = Logger.getLogger(String.format("AirConditioner(%s)", deviceId));
     }
 
+    @Override
+    public ApplianceType getType() {
+        return ApplianceType.AC;
+    }
     @Override
     public Mode getMode() {
         return mode;
@@ -177,6 +181,7 @@ public class AirConditionerApplianceImpl extends ApplianceImpl implements AirCon
     public String toString() {
         return "AirConditionerApplianceImpl{" +
                 "deviceId='" + deviceId + '\'' +
+                ", type='" + getType() + '\'' +
                 ", name='" + getName() + '\'' +
                 ", poweredOn=" + isPoweredOn() +
                 ", mode=" + mode +

@@ -1,7 +1,5 @@
 package eu.czsoft.greesdk.net.packets;
 
-import com.google.gson.annotations.SerializedName;
-import eu.czsoft.greesdk.net.packets.packs.Pack;
 import lombok.ToString;
 
 /**
