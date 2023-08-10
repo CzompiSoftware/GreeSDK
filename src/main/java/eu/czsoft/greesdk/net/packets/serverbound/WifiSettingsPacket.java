@@ -5,7 +5,7 @@ import eu.czsoft.greesdk.net.packets.ServerboundPacket;
 import lombok.ToString;
 
 @ToString(callSuper = true)
-public class WifiSettingsPacket extends ServerboundPacket {
+public class WiFiSettingsPacket extends ServerboundPacket {
     public static String TYPE = "wlan";
 
     @SerializedName("psw")
@@ -14,7 +14,7 @@ public class WifiSettingsPacket extends ServerboundPacket {
     @SerializedName("ssid")
     public String ssid;
 
-    public WifiSettingsPacket() {
+    public WiFiSettingsPacket() {
         type = TYPE;
     }
 }

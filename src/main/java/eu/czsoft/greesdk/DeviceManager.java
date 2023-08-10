@@ -16,7 +16,7 @@ import eu.czsoft.greesdk.net.packets.packs.serverbound.CommandRequestPack;
 import eu.czsoft.greesdk.net.packets.packs.serverbound.StatusResponsePack;
 import eu.czsoft.greesdk.net.packets.serverbound.ApplicationPacket;
 import eu.czsoft.greesdk.net.packets.serverbound.ScanAppliancesPacket;
-import eu.czsoft.greesdk.net.packets.serverbound.WifiSettingsPacket;
+import eu.czsoft.greesdk.net.packets.serverbound.WiFiSettingsPacket;
 import lombok.extern.java.Log;
 
 import java.io.IOException;
@@ -110,7 +110,7 @@ public class DeviceManager {
 
     public void setWiFi(String ssid, String password){
 
-        WifiSettingsPacket packet = new WifiSettingsPacket();
+        WiFiSettingsPacket packet = new WiFiSettingsPacket();
         packet.password = password;
         packet.ssid = ssid;
 
