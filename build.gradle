@@ -47,7 +47,7 @@ publishing {
             }
             pom {
                 name = rootProject.name
-                description = "An SDK to easily communicate with your Gree appliances. Separated from GreeControlAndroid."
+                description = "An SDK to easily communicate with your Gree appliances. Originally separated from GreeControlAndroid, and then got a full rewrite."
                 url = "https://docs.czsoft.eu/greesdk?v=" + rootProject.version
                 developers {
                     developer {
