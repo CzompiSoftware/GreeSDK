@@ -3,24 +3,25 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'eu.czsoft'
+group = 'hu.czsoft'
 version = rootProject.version
 
 repositories {
     mavenCentral()
     maven {
         name = 'czsoft'
-        url = rootProject.mavenUrl + "releases"
+        url = "${rootProject.mavenUrl}releases"
     }
 }
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation platform("org.junit:junit-bom:${rootProject.junitVersion}")
+    testImplementation "org.junit.jupiter:junit-jupiter:${rootProject.junitVersion}"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${rootProject.junitPlatformVersion}"
 
-    compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    compileOnly "org.projectlombok:lombok:${rootProject.lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${rootProject.lombokVersion}"
 
-    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation "com.google.code.gson:gson:${rootProject.gsonVersion}"
 }
 publishing {
     repositories {
@@ -47,8 +48,8 @@ publishing {
             }
             pom {
                 name = rootProject.name
-                description = "An SDK to easily communicate with your Gree appliances. Originally separated from GreeControlAndroid, and then got a full rewrite."
-                url = "https://docs.czsoft.eu/greesdk?v=" + rootProject.version
+                description = "An SDK to easily communicate with your Gree appliances, written in Java. Originally separated from GreeControlAndroid, and then got a full rewrite."
+                url = "https://docs.czsoft.hu/en/java/greesdk?v=" + rootProject.version
                 developers {
                     developer {
                         id = "czompi"
@@ -58,13 +59,13 @@ publishing {
                     developer {
                         id = "czompisoftware"
                         name = "Czompi Software"
-                        email = "dev@czsoft.eu"
+                        email = "developer@czsoft.hu"
                     }
                 }
                 scm {
-                    connection = "scm:git:git://github.com/CzompiSoftware/" + rootProject.artifactId + ".git"
-                    developerConnection = "scm:git:ssh://github.com/CzompiSoftware/" + rootProject.artifactId + ".git"
-                    url = "https://github.com/CzompiSoftware/" + rootProject.artifactId
+                    connection = "scm:git:git://github.com/CzompiSoftware/" + rootProject.artifactId + ".Java.git"
+                    developerConnection = "scm:git:ssh://github.com/CzompiSoftware/" + rootProject.artifactId + ".Java.git"
+                    url = "https://github.com/CzompiSoftware/" + rootProject.artifactId + ".Java"
                 }
             }
         }
